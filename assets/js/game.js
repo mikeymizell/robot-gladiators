@@ -14,51 +14,19 @@ var enemyAttack = 12;
 // LOSE - play robot's health is zero or less
 
 var fight = function(enemyName) {
-    while(enemyHealth > 0) {
+    while (playerHealth > 0 && enemyHealth > 0) {
         var promptFight = window.prompt("Would you light to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-        if (promptFight === "FIGHT" || promptFight === "fight") {
-            //Subtract the value of 'playerAttack' from value of 'enemyHealth' and use that
-            //result to update in the 'enemyHealth' var
-            enemyHealth -= playerAttack;
-
-            // Log a resulting message to the console so we know that it worked.
-            console.log(
-                playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
-            );
-
-            // Subtract the value of `enemyAttack` from the value of `playerHealth` and use 
-            //that result to update the value in the `playerHealth` variable.
-            playerHealth -= enemyAttack;
-
-            // Log a resulting message to the console so we know that it worked.
-            console.log(
-                enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
-            );
-
-            //check enemy's health
-            if (enemyHealth <= 0) {
-                window.alert(enemyName + " has died!");
-            }
-            else {
-                window.alert(enemyName + " still has " + enemyHealth + " health left.");
-            }
-
-            //checks palyer's health
-            if (playerHealth <= 0) {
-                window.alert(playerName + " has died!");
-            }
-            else {
-                window.alert(playerName + " still has " + playerHealth + " health left.");
-            }
-        }
-        else if (promptFight === "SKIP" || promptFight === "skip") {
+        
+        if (promptFight === "SKIP" || promptFight === "skip") {
             //confirm player wants to skip
             var confirmSkip = window.confirm("Are you sure you'd like to quit?");
 
             //if yes, leave fight and take money
             if (confirmSkip) {
                 window.alert(playerName + " has chosen to skip the fight. Goodbye!");
-                playerMoney -= 2;
+                playerMoney -= 10;
+                console.log("playerMoney", playerMoney);
+                break;
             }
 
             //if no, ask question again my running fight() again
@@ -66,8 +34,41 @@ var fight = function(enemyName) {
                 fight();
             }      
         }
+        
+        //Subtract the value of 'playerAttack' from value of 'enemyHealth' and use that
+        //result to update in the 'enemyHealth' var
+        enemyHealth -= playerAttack;
+
+        // Log a resulting message to the console so we know that it worked.
+        console.log(
+            playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+        );
+
+        // Subtract the value of `enemyAttack` from the value of `playerHealth` and use 
+        //that result to update the value in the `playerHealth` variable.
+        playerHealth -= enemyAttack;
+
+        // Log a resulting message to the console so we know that it worked.
+        console.log(
+            enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
+        );
+
+        //check enemy's health
+        if (enemyHealth <= 0) {
+            window.alert(enemyName + " has died!");
+            break;
+        }
         else {
-            window.alert("You need to chose a valid option. Try again!");
+            window.alert(enemyName + " still has " + enemyHealth + " health left.");
+        }
+
+        //checks palyer's health
+        if (playerHealth <= 0) {
+            window.alert(playerName + " has died!");
+            break;
+        }
+        else {
+            window.alert(playerName + " still has " + playerHealth + " health left.");
         }
     }
 };
