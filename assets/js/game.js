@@ -4,6 +4,31 @@ var randomNumber = function(min, max) {
     return value;
 }
 
+var fightOrSkip = function() {
+    var promptFight = window.prompt("Would you light to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+        
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+    // if player picks "skip" confirm and then stop the loop
+    if (promptFight === "skip") {
+        //confirm player wants to skip
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+        //if yes, leave fight and take money
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has chosen to skip the fight. Goodbye!");
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+        }
+    } 
+    
+    return false;
+}
+
 // Game States
 // WIN - player robot has defeated all enemy robots
 //  * Fight all enemy robots
@@ -12,19 +37,9 @@ var randomNumber = function(min, max) {
 
 var fight = function(enemy) {
     while (playerInfo.health > 0 && enemy.health > 0) {
-        var promptFight = window.prompt("Would you light to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-        
-        if (promptFight === "SKIP" || promptFight === "skip") {
-            //confirm player wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-            //if yes, leave fight and take money
-            if (confirmSkip) {
-                window.alert(playerInfo.name + " has chosen to skip the fight. Goodbye!");
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }     
+        if (fightOrSkip()) {
+            // if true, leave fight by breaking loop
+            break;
         }
 
         // generate random dmg value based on players atk
