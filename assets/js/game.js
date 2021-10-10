@@ -63,6 +63,7 @@ var fight = function(enemy) {
             //checks enemy's health
             if (enemy.health <= 0) {
                 window.alert(enemy.name + " has died!");
+                playerInfo.money += 20;
                 break;
             }
             else {
@@ -180,21 +181,28 @@ var startGame = function() {
             break;
         }
     }
-    
+
     endGame();
 };
 
 var endGame = function() {
-    if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of " 
-         + playerInfo.money + ".");
+    window.alert("The game has now ended. Let's see how you did!");
+
+    var highscore = localStorage.getItem("highscore");
+    if (highscore === null) {
+        highscore = 0;
+    } 
+    
+    if (playerInfo.money > highscore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("playerName", playerInfo.name);
+        alert(playerInfo.name + " now has the highscore of " + playerInfo.money);
     }
     else {
-        window.alert("You've lost your robot in battle.");
+        alert("Sorry, you didn't beat the highscore of " + highscore + ". Try again!");
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again?");
-
     if (playAgainConfirm) {
         startGame();
     }
